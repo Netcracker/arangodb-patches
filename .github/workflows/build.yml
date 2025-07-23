@@ -1,0 +1,38 @@
+name: Build and Publish ArangoDB Docker Image
+
+on:
+  workflow_dispatch:
+    inputs:
+      arango-tag:
+        description: "ArangoDB version tag to build the image"
+        required: true
+        default: "3.11.14"
+      tag:
+        description: "Tag for the Docker image"
+        required: true
+        default: ""
+      custom-image-name:
+        description: "Custom name for the Docker image"
+        required: true
+        default: "arangodb-source"
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build & Publish ArangoDB Image
+        uses: netcracker/qubership-workflow-hub/actions/docker-action@main
+        with:
+          ref: ${{ github.ref }}
+          component: '[{"name": "default", "file": "Dockerfile", "context": "."}]'
+          custom-image-name: ${{ inputs.custom-image-name }}
+          tags: "${{ inputs.tag }}"
+          build-args: |
+            TAG=${{ inputs.arango-tag }}
+          dry-run: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
