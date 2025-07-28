@@ -106,7 +106,7 @@ if [ "$1" = 'arangod' ]; then
                 exit 1
             fi
 
-            let counter=counter+1
+            counter=$((counter + 1))
             ARANGO_UP=1
 
             $NUMACTL arangosh \
