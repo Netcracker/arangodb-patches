@@ -51,18 +51,9 @@ if [ "$1" = 'arangod' ]; then
     cp /etc/arangodb3/arangod.conf /tmp/arangod.conf
     
     sed 's|uid = arangodb|# uid = arangodb|' -i /tmp/arangod.conf
-    # echo "[server]" >> /tmp/arangod.conf
-    # echo "uid = arangodb" >> /tmp/arangod.conf
     
     echo "[log]" >> /tmp/arangod.conf
     echo "file = -" >> /tmp/arangod.conf
-    
-#    echo "[database]" >> /tmp/arangod.conf
-#    echo "directory = /var/lib/arangodb3" >> /tmp/arangod.conf
-    
-#    echo "[javascript]" >> /tmp/arangod.conf
-#    echo "startup-directory = /usr/share/arangodb3/js" >> /tmp/arangod.conf
-#    echo "app-path = /var/lib/arangodb3-apps" >> /tmp/arangod.conf
 
     ARANGO_STORAGE_ENGINE=rocksdb
     if [ ! -z "$ARANGO_ENCRYPTION_KEYFILE" ]; then
@@ -188,8 +179,6 @@ if [ "$1" = 'arangod' ]; then
     if [ ! -z "$ARANGO_NO_AUTH" ]; then
 	    AUTHENTICATION="false"
     fi
-    
-    echo "params: $@"
 
     set -- arangod "$@" --server.authentication="$AUTHENTICATION" --config /tmp/arangod.conf
 else
