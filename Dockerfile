@@ -1,7 +1,7 @@
 ################################################################
 # Stage 1: Build ArangoDB and install to /opt/arangodb-dist
 ################################################################
-ARG TAG=v3.11.14
+ARG TAG=v3.11.14.4
 FROM debian:12 AS builder
 ARG TAG
 
